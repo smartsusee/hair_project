@@ -9,12 +9,34 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- bootstrap link  line 20 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,6 +46,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!-- ___________________tailwind css _______________________________ -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
+    />
     <title>React App</title>
   </head>
   <body>
@@ -39,5 +66,306 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- ___________________Youtube Slider ______________________________  -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      var sliderSelector = ".swiper-container",
+        options = {
+          init: false,
+          loop: true,
+          speed: 800,
+          slidesPerView: 2, // or 'auto'
+          // spaceBetween: 10,
+          centeredSlides: true,
+          effect: "coverflow", // 'cube', 'fade', 'coverflow',
+          coverflowEffect: {
+            rotate: 50, // Slide rotate in degrees
+            stretch: 0, // Stretch space between slides (in px)
+            depth: 100, // Depth offset in px (slides translate in Z axis)
+            modifier: 1, // Effect multipler
+            slideShadows: true, // Enables slides shadows
+          },
+          grabCursor: true,
+          parallax: true,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: false,
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+          keyboard: {
+            enabled: true,
+            onlyInViewport: false,
+          },
+          breakpoints: {
+            1023: {
+              slidesPerView: 1,
+              spaceBetween: 0,
+            },
+          },
+          // Events
+          on: {
+            imagesReady: function () {
+              this.el.classList.remove("loading");
+            },
+            slideChange: function () {
+              //  Stop Video from Playing on Slide Change
+              videoStop();
+            },
+          },
+        };
+      var mySwiper = new Swiper(sliderSelector, options);
+
+      // Initialize slider
+      mySwiper.init();
+
+      //  Video Poster Setup
+
+      $(document).on("click", ".js-videoPoster", function (ev) {
+        "use strict";
+        ev.preventDefault();
+        videoStop();
+        var $poster = $(this);
+        var $wrapper = $poster.closest(".js-videoWrapper");
+        videoPlay($wrapper);
+      });
+
+      // play the targeted video (and hide the poster frame)
+      function videoPlay($wrapper) {
+        "use strict";
+        var $iframe = $wrapper.find(".js-videoIframe");
+        var src = $iframe.data("src");
+        // hide poster
+        $wrapper.addClass("videoWrapperActive");
+        // add iframe src in, starting the video
+        $iframe.attr("src", src);
+      }
+
+      // stop the targeted/all videos (and re-instate the poster frames)
+      function videoStop($wrapper) {
+        "use strict";
+        // if we're stopping all videos on page
+        if (!$wrapper) {
+          var $wrapper = $(".js-videoWrapper");
+          var $iframe = $(".js-videoIframe");
+          // if we're stopping a particular video
+        } else {
+          var $iframe = $wrapper.find(".js-videoIframe");
+        }
+        // reveal poster
+        $wrapper.removeClass("videoWrapperActive");
+        // remove youtube link, stopping the video from playing in the background
+        $iframe.attr("src", "");
+      }
+    </script>
+
+    <!-- ___________________________ card script __________________________________ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      kofiWidgetOverlay.draw("mohamedghulam", {
+        type: "floating-chat",
+        "floating-chat.donateButton.text": "Support me",
+        "floating-chat.donateButton.background-color": "#323842",
+        "floating-chat.donateButton.text-color": "#fff",
+      });
+    </script>
+    <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+
+    <!-- ____________________video Slider _______________________________  -->
+    <script>
+      (function ($) {
+        $.fn.sliderVideo = function (options) {
+          options = $.extend(
+            {
+              scrollerSelector: ".slider-video-scroll",
+              itemSelector: ".slider-video-item",
+              aspectSelect: ".slider-video-aspect",
+              navLeftSelector: ".slider-video-left",
+              navRightSelecto: ".slider-video-right",
+              scrollTime: 500,
+              animationTime: 300,
+              visibleItems: 2,
+              itemsGap: 10,
+              aspectRation: 0.625,
+            },
+            options
+          );
+
+          var $slider = $(this);
+          var $scroller = $slider.find(options.scrollerSelector);
+          var $aspect = $slider.find(options.aspectSelect);
+          var $items = $slider.find(options.itemSelector);
+          var $navLeft = $slider.find(options.navLeftSelector);
+          var $navRight = $slider.find(options.navRightSelecto);
+          $items.bind("click", onItemClick);
+          $navLeft.bind("click", onNavLeftClick);
+          $navRight.bind("click", onNavRightClick);
+          $slider.bind("scrollToIndex", function (event, index) {
+            scrollToIndex(index);
+          });
+
+          initializeSize();
+          initializeOrigin();
+          initializeNavigation();
+
+          function initializeSize() {
+            $aspect.height($aspect.width() * options.aspectRation);
+            $scroller.width(50 * $items.length + "%");
+
+            var itemWidth = $aspect.width() / options.visibleItems;
+            var itemHeight = itemWidth * options.aspectRation;
+            var positionTop = ($aspect.height() - itemHeight) / 2;
+            $items.each(function (i) {
+              $(this).css({
+                top: positionTop,
+                left: i * (itemWidth + options.itemsGap),
+                width: itemWidth - options.itemsGap + "px",
+                height: itemHeight + "px",
+              });
+            });
+          }
+
+          function initializeOrigin() {
+            var aspectScrollLeft = $aspect.scrollLeft();
+            $items.each(function (i) {
+              var $item = $(this);
+              if ($item.position().left > aspectScrollLeft) {
+                $item.css({
+                  "transform-origin": "100% 50%",
+                });
+              } else {
+                $item.css({
+                  "transform-origin": "0 50%",
+                });
+              }
+            });
+          }
+
+          function initializeNavigation() {
+            var visibleItems = getVisibleItems();
+
+            $navLeft.toggle(visibleItems.first().prev().length > 0);
+            $navRight.toggle(visibleItems.last().next().length > 0);
+          }
+
+          function onItemClick() {
+            var $item = $(this);
+
+            if ($item.is(".active")) {
+              $item.removeClass("active");
+              toggleVideo($item, false);
+              initializeSize();
+
+              $item.addClass("active-out");
+              setTimeout(function () {
+                $item.removeClass("active-out");
+              }, options.animationTime);
+            } else {
+              $item.css({
+                width: $aspect.width(),
+                height: $aspect.height(),
+                left: $aspect.scrollLeft(),
+                top: 0,
+              });
+              $item.addClass("active");
+              setTimeout(function () {
+                toggleVideo($item, true);
+              }, 300);
+            }
+          }
+
+          function onNavRightClick() {
+            scrollTo(1);
+          }
+
+          function onNavLeftClick() {
+            scrollTo(-1);
+          }
+
+          function toggleVideo($item, status) {
+            $item.find(".slider-video-pic").toggle(!status);
+            $item.find(".slider-video-play").toggle(status);
+            var frame = $item.find("iframe")[0];
+            frame.contentWindow.postMessage(
+              '{"event":"command","func":"' +
+                (status ? "playVideo" : "pauseVideo") +
+                '","args":""}',
+              "*"
+            );
+          }
+
+          function scrollTo(direction) {
+            if ($items.is(".active")) {
+              var $active = $(".slider-video-item").filter(".active");
+              var $next = direction > 0 ? $active.next() : $active.prev();
+              if ($next.length) {
+                scrollToIndex($next.index());
+                $active.trigger("click");
+                setTimeout(function () {
+                  $next.trigger("click");
+                  initializeNavigation();
+                }, options.scrollTime);
+              }
+            } else {
+              var visibleItems = getVisibleItems();
+
+              if (direction > 0) {
+                scrollToIndex(visibleItems.last().next().index());
+              } else {
+                scrollToIndex(visibleItems.first().prev().index());
+              }
+            }
+          }
+
+          function scrollToIndex(index) {
+            var $item = $items.eq(index);
+            if ($item.length) {
+              var itemWidth = $aspect.width() / options.visibleItems;
+
+              var itemLeft = $item.position().left;
+              var targetPosition = null;
+
+              if (itemLeft > $aspect.scrollLeft() + $aspect.width()) {
+                targetPosition = itemLeft - itemWidth - options.itemsGap;
+              } else if (itemLeft < $aspect.scrollLeft()) {
+                targetPosition = itemLeft;
+              }
+
+              if (targetPosition != null) {
+                $aspect.animate(
+                  { scrollLeft: targetPosition + "px" },
+                  options.scrollTime,
+                  function () {
+                    initializeOrigin();
+                    initializeNavigation();
+                  }
+                );
+              }
+            }
+          }
+
+          function getVisibleItems() {
+            return $items.filter(function (i) {
+              var posLeft = $(this).position().left;
+              return (
+                posLeft >= $aspect.scrollLeft() &&
+                posLeft < $aspect.scrollLeft() + $aspect.width()
+              );
+            });
+          }
+        };
+      })(jQuery);
+
+      $(function () {
+        $(".slider-video").sliderVideo();
+      });
+    </script>
   </body>
 </html>
